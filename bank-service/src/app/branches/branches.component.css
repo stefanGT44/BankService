@@ -1,0 +1,14 @@
+.content {
+    text-align: center;
+}
+
+#table {
+    font-family: "Courier New", Times, serif;
+    margin: 0 auto;
+}
+
+#table td{
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}

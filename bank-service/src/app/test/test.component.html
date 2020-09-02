@@ -1,0 +1,57 @@
+<p>
+  {{greetUser()}}<br>
+  {{siteUrl}}<br>
+  <input id="{{myId}}" type="text" value="Stefan">
+  <input [disabled]="isDisabled" id="{{myId}}" type="text" value="Stefan"><br>
+  asdasdasd
+  <input type="text" value="Test">
+  <button>asdasd</button>
+  <h2 class="{{successClass}}">Alo koj ti kurac</h2>
+  <h2 [class]="successClass">jebote koj ti djavo</h2>
+  <h2 [class.text-danger]="hasError">Test za dynamic</h2>
+
+  <h2 [ngClass]="messageClasses">Test za dynamic</h2>
+  <br>
+  <br>
+  <h2 [style.color]="hasError?'red':'green'">test boja</h2>
+  
+  <h2 [style.color] = "highlightColor">test boja</h2>
+  <h2 [ngStyle] = "titleStyles">test boja</h2>
+
+  <button (click)="onClick($event)">Greet</button>
+
+  <button (click)="greeting='Welcome Stefan'">Greet</button>
+  <br><br>
+  <input #myInput type="text">
+  <button (click)="logMessage(myInput.value)">Log</button> <br>
+
+  <input [(ngModel)]="name" type="text">
+  {{name}}
+
+  {{greeting}}
+
+  <div *ngIf="displayName; then thenBlock; else elseBlock"></div>
+
+  <ng-template #thenBlock>
+    <h2>Ovo je IF</h2>
+  </ng-template>
+
+  <ng-template #elseBlock>
+    <h2>Ovo je ELSE</h2>
+  </ng-template>
+
+  <div *ngFor="let color of colors; index as i">
+    <h2 [style.color]="color" >{{i}} {{color}}</h2>
+  </div>
+
+  <h2>{{"hello " + name}}</h2>
+
+  <button (click)="fireEvent()">Send event</button>
+
+  <div *ngFor="let bank of banks">
+    <h2>id: {{bank.id}}, name: {{bank.name}}, bankCode: {{bank.bankCode}}, bankType: {{bank.bankType}}, 
+      swiftCode: {{bank.swiftCode}}, validFrom: {{bank.validFrom}}, validTo: {{bank.validTo}}
+    </h2>
+  </div>
+
+<p>

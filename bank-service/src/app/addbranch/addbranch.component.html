@@ -1,0 +1,78 @@
+<div class="container">
+
+  <h1>Dodavanje podruznice: </h1>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+      <small class="text-danger" [class.d-none] = "name.valid || name.untouched">Name is required</small>
+      <div class="form-group">
+        <label>Name: </label>
+        <input type="text" required #name="ngModel" [class.is-invalid] = "name.invalid && name.touched" class="form-control" name="branchName" [(ngModel)] = "branchForm.name">
+      </div>
+      <br>
+
+    <small class="text-danger" [class.d-none] = "!bankSelectError || bankSelect.untouched">Please choose a bank</small>
+    <div class="form-group">
+      <label>Bank: </label>
+
+      <select (blur)="validateBankSelect(bankSelect.value)" (change)="validateBankSelect(bankSelect.value)" required #bankSelect="ngModel" 
+      [class.is-invalid] = "bankSelectError && bankSelect.touched" class="custom-select" name="bankSelect" [(ngModel)] = "branchForm.bank">
+
+        <option value="default">Select bank: </option>
+        <option *ngFor="let bank of banks" value="{{bank.id}}">id: {{bank.id}} - {{bank.name}}</option>
+      </select>
+    </div>
+    <br>
+
+    <small class="text-danger" [class.d-none] = "branchCode.valid || branchCode.untouched">Branch code is required</small>
+    <div class="form-group">
+      <label>Branch code: </label>
+      <input type="text" required #branchCode="ngModel" [class.is-invalid] = "branchCode.invalid && branchCode.touched" class="form-control" name="branchCode" [(ngModel)] = "branchForm.branchCode">
+    </div>
+    <br>
+
+    <small class="text-danger" [class.d-none] = "swiftCode.valid || swiftCode.untouched">Swift code is required</small>
+    <div class="form-group">
+      <label>Swift code: </label>
+      <input type="text" required #swiftCode="ngModel" [class.is-invalid] = "swiftCode.invalid && swiftCode.touched " class="form-control" name="swiftCode" [(ngModel)] = "branchForm.swiftCode">
+    </div>
+
+
+
+    <small class="text-danger" [class.d-none] = "(validFromDate.valid && validFromTime.valid) || (validFromDate.untouched && validFromTime.untouched)">Valid from date and time are required</small>
+    <div [class.d-none] = "!dateError">
+      <small class="text-danger">Datum ne sme biti pre danasnjeg</small><br>
+    </div>
+    <div class="form-group">
+      <label>Valid from: </label>
+      <input type="date" (change)="validateValidFrom(validFromDate.value)" required #validFromDate="ngModel" [class.is-invalid] = "(validFromDate.invalid || dateError) && validFromDate.touched" class="form-control" name="validFromDate" [(ngModel)] = "branchForm.validFromDate">
+      <input type="time" required #validFromTime="ngModel" [class.is-invalid] = "validFromTime.invalid && validFromTime.touched" step="1" class="form-control" name="validFromTime" [(ngModel)] = "branchForm.validFromTime">
+    </div>
+
+    <small class="text-danger" [class.d-none] = "(validToDate.valid && validToTime.valid) || (validToDate.untouched && validToTime.untouched)">Valid to must be undefined or have both date and time set.</small>
+    <div [class.d-none] = "!validToError">
+        <small class="text-danger">Valid to mora biti posle valid from</small><br>
+    </div>
+    <div class="form-group">
+      <label>Valid to: </label>
+      <input type="date" (change)="validateValidTo(validToDate.value, validToTime.value, validFromDate.value, validFromTime.value)" #validToDate="ngModel" [required] = "validToTime.value != '' && validToTime.value != null" 
+      [class.is-invalid] = "(validToDate.invalid && validToDate.touched) || validToError" class="form-control" name="validToDate" [(ngModel)] = "branchForm.validToDate">
+
+      <input type="time" (change)="validateValidTo(validToDate.value, validToTime.value, validFromDate.value, validFromTime.value)" #validToTime="ngModel" [required] = "validToDate.value != '' && validToDate.value != null" 
+      [class.is-invalid] = "(validToTime.invalid && validToTime.touched) || validToError" step="1" class="form-control" name="validToTime" [(ngModel)] = "branchForm.validToTime">
+    </div>
+    <br>
+
+    <button [disabled] = "userForm.form.invalid || dateError || validToError || bankSelectError" class="btn btn-primary" type="submit">Dodaj podruznicu</button>
+
+  </form>
+
+  <div *ngIf="showMessage; then thenBlock2"></div>
+
+  <ng-template #thenBlock2>
+    <label [style.color]="messageError?'red':'green'"><br>
+      <h3 *ngFor="let msg of response.messages">{{msg.message}}</h3>
+    </label>
+  </ng-template>
+
+</div>

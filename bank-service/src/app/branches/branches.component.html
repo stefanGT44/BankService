@@ -1,0 +1,54 @@
+<div class="content">
+  <label>Filter banks: </label><br>
+  <input type="text" placeholder="Search by keyword..." [(ngModel)]="identifier">
+  <input type="date" placeholder="Valid on..." [(ngModel)]="date">
+  <input type="time" step="1" placeholder="Time" [(ngModel)]="time">
+  <button (click)="search()">Search</button>
+  <br><br><br>
+
+  <div *ngIf="searched; then thenBlock; else elseBlock"></div>
+
+  <ng-template #thenBlock>
+    <h2>Search results for: <u>{{keyword}} {{valid_on}}</u></h2>
+  </ng-template>
+
+  <ng-template #elseBlock>
+    <h2>Branches: </h2>
+  </ng-template>
+
+  <div *ngIf="deleted; then thenBlock2"></div>
+
+  <ng-template #thenBlock2>
+    <label [style.color]="error?'red':'green'">
+      <h2 *ngFor="let msg of deletedMsg.messages">{{msg.message}}</h2>
+    </label>
+  </ng-template>
+
+  <br>
+  <table id="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Bank</th>
+      <th>Branch code</th>
+      <th>Swift code</th>
+      <th>Valid from</th>
+      <th>Valid to</th>
+    </tr>
+  </thead>
+  <tbody>
+          <tr *ngFor="let branch of branches">
+            <td>{{branch.name}}</td>
+            <td>{{branch.bank.name}}</td>
+            <td>{{branch.branchCode}}</td>
+            <td>{{branch.swiftCode}}</td>
+            <td>{{branch.validFrom | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+            <td>{{branch.validTo | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+            <td><button (click)="goToAddBranch(branch.id)" >Update</button></td>
+            <td><button (click)="invalidate(branch)" [disabled]="disabledTest(branch)">Invalidate</button></td>
+          </tr>
+  </tbody>
+</table>
+
+
+</div>

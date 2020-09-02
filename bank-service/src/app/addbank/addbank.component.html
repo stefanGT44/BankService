@@ -1,0 +1,74 @@
+<div class="container">
+  <h1>Dodavanje banke:</h1>
+  
+  
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <small class="text-danger" [class.d-none] = "name.valid || name.untouched">Name is required</small>
+    <div class="form-group">
+      <label>Name: </label>
+      <input type="text" required #name="ngModel" [class.is-invalid] = "name.invalid && name.touched" class="form-control" name="bankName" [(ngModel)] = "bankForm.name">
+    </div>
+    <br>
+
+    <small class="text-danger" [class.d-none] = "!bankTypeError || bankType.untouched">Please choose a bank type</small>
+    <div class="form-group">
+      <label>Bank type: </label>
+      <select (blur)="validateType(bankType.value)" (change)="validateType(bankType.value)" required #bankType="ngModel" [class.is-invalid] = "bankTypeError && bankType.touched" class="custom-select" name="bankType" [(ngModel)] = "bankForm.bankType">
+        <option value="default">Select bank type</option>
+        <option *ngFor="let type of bankTypes">{{type}}</option>
+      </select>
+    </div>
+    <br>
+
+    <small class="text-danger" [class.d-none] = "bankCode.valid || bankCode.untouched">Bank code is required</small>
+    <div class="form-group">
+      <label>Bank code: </label>
+      <input type="text" required #bankCode="ngModel" [class.is-invalid] = "bankCode.invalid && bankCode.touched" class="form-control" name="bankCode" [(ngModel)] = "bankForm.bankCode">
+    </div>
+    <br>
+
+    <small class="text-danger" [class.d-none] = "swiftCode.valid || swiftCode.untouched">Swift code is required</small>
+    <div class="form-group">
+      <label>Swift code: </label>
+      <input type="text" required #swiftCode="ngModel" [class.is-invalid] = "swiftCode.invalid && swiftCode.touched " class="form-control" name="swiftCode" [(ngModel)] = "bankForm.swiftCode">
+    </div>
+
+    
+    <small class="text-danger" [class.d-none] = "(validFromDate.valid && validFromTime.valid) || (validFromDate.untouched && validFromTime.untouched)">Valid from date and time are required</small>
+    <div [class.d-none] = "!dateError">
+      <small class="text-danger">Datum ne sme biti pre danasnjeg</small><br>
+    </div>
+    <div class="form-group">
+      <label>Valid from: </label>
+      <input type="date" (change)="validateValidFrom(validFromDate.value)" required #validFromDate="ngModel" [class.is-invalid] = "(validFromDate.invalid || dateError) && validFromDate.touched" class="form-control" name="validFromDate" [(ngModel)] = "bankForm.validFromDate">
+      <input type="time" required #validFromTime="ngModel" [class.is-invalid] = "validFromTime.invalid && validFromTime.touched" step="1" class="form-control" name="validFromTime" [(ngModel)] = "bankForm.validFromTime">
+    </div>
+
+    <small class="text-danger" [class.d-none] = "(validToDate.valid && validToTime.valid) || (validToDate.untouched && validToTime.untouched)">Valid to must be undefined or have both date and time set.</small>
+    <div [class.d-none] = "!validToError">
+        <small class="text-danger">Valid to mora biti posle valid from</small><br>
+    </div>
+    <div class="form-group">
+      <label>Valid to: </label>
+      <input type="date" (change)="validateValidTo(validToDate.value, validToTime.value, validFromDate.value, validFromTime.value)" #validToDate="ngModel" [required] = "validToTime.value != '' && validToTime.value != null" 
+      [class.is-invalid] = "(validToDate.invalid && validToDate.touched) || validToError" class="form-control" name="validToDate" [(ngModel)] = "bankForm.validToDate">
+
+      <input type="time" (change)="validateValidTo(validToDate.value, validToTime.value, validFromDate.value, validFromTime.value)" #validToTime="ngModel" [required] = "validToDate.value != '' && validToDate.value != null" 
+      [class.is-invalid] = "(validToTime.invalid && validToTime.touched) || validToError" step="1" class="form-control" name="validToTime" [(ngModel)] = "bankForm.validToTime">
+    </div>
+    <br>
+
+    <button [disabled] = "userForm.form.invalid || dateError || validToError || bankTypeError" class="btn btn-primary" type="submit">Dodaj banku</button>
+
+  </form>
+
+  <div *ngIf="showMessage; then thenBlock2"></div>
+
+  <ng-template #thenBlock2>
+    <label [style.color]="messageError?'red':'green'"><br>
+      <h3 *ngFor="let msg of response.messages">{{msg.message}}</h3>
+    </label>
+  </ng-template>
+
+</div>
