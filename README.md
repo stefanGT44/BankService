@@ -36,7 +36,8 @@ otherwise valid_to is set to today)
 * invalidating a bank automatically invalidates its branches
 
 ## Sidenote
-This project was an assignment as part of the course - Advanced Java programming during the 7th semester at the Faculty of Computer Science in Belgrade.
+This project was an assignment as part of the course - Advanced Java programming during the 7th semester at the Faculty of Computer Science in Belgrade.<br>
+All platform functionalities were defined in the assignment specifications.
 
 ## Contributors
 - Stefan Ginic - <stefangwars@gmail.com>
