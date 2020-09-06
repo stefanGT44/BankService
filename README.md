@@ -26,8 +26,8 @@ Every backend response is formatted as follows:<br>
 ## Validation:
 * valid_to must be after today and valid_from<br>
   (if valid_to is specified, time is automatically set to be 11:59 PM -  the end of the day)
-* bank_code must be unique, 2 banks with the same code can exist but must be valid within different time periods
-* bank swift_code must be unique, 2 banks with the same code can exist but must be valid within different time periods
+* bank_code must be unique, two banks with the same code can exist but must be valid within different time periods
+* bank swift_code must be unique, two banks with the same code can exist but must be valid within different time periods
 * branch swift_code must be unique during a valid period between branches of different banks <br>
 (branches can have the same swift_code if they belong to the same bank)
 * banks and branches can be invalidated only if valid_to is in the future from now<br>
